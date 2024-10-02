@@ -30,7 +30,6 @@ export function AuthModal() {
         <div className="flex flex-col mt-5 gap-3">
           <form action={async () => {
             "use server"
-            // TODO: fucking error in google auth 
             await signIn("google");
           }} className="w-full">
             <GoogleAuthButton />
