@@ -3,16 +3,13 @@ import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Logo from "@/public/logo.png";
 import Image from "next/image";
 import { signIn } from "../lib/auth";
 import { GitHubAuthButton, GoogleAuthButton } from "./SubmitButtons";
-
 
 export function AuthModal() {
   return (

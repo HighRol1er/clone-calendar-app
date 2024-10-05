@@ -13,6 +13,7 @@ import { requireUser } from "../lib/hooks";
 import prisma from "../lib/db";
 import { redirect } from "next/navigation";
 
+
 // fetch user data and 
 // check if the user has inputed an username
 async function getData(userId: string) {
@@ -22,11 +23,16 @@ async function getData(userId: string) {
     },
     select: {
       username: true,
+      grantId: true,
     },
   });
 
   if(!data?.username) {
     return redirect("/onboarding");
+  }
+
+  if(!data.grantId) {
+    return redirect("/onboarding/grant-id");
   }
   return data;
 }
