@@ -12,6 +12,7 @@ import { auth, signOut } from "../lib/auth";
 import { requireUser } from "../lib/hooks";
 import prisma from "../lib/db";
 import { redirect } from "next/navigation";
+import { Toaster } from "@/components/ui/sonner";
 
 
 // fetch user data and 
@@ -117,6 +118,7 @@ export default async function DashboardLayout({children}: {children: ReactNode})
           <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">{children}</main>
         </div>
       </div>
+      <Toaster richColors closeButton/>
     </>
   )
 }
