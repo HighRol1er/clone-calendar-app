@@ -1,3 +1,4 @@
+import { RenderCalendar } from "@/app/components/bookingForm/RenderCalendar";
 import prisma from "@/app/lib/db";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -42,13 +43,25 @@ async function getData(eventUrl: string, username: string) {
 }
 
 
-export default async function BookingFormRoute({params}: {params:{username:string, eventUrl:string}}) {
+export default async function BookingFormRoute({
+  params, searchParams
+}: {
+  params:{username:string, eventUrl:string};
+  searchParams: {date?: string}
+}) {
    
   const data = await getData(params.eventUrl, params.username);
+  const selectedDate = searchParams.date ? new Date(searchParams.date) : new Date();
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  }).format(selectedDate);
+  
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       <Card className="max-w-[1000px] w-full mx-auto">
-        <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr]">
+        <CardContent className="gap-4 p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr]">
           <div>
             <img src={data.User?.image as string} alt="Profile Img" 
               className="size-10 rounded-full"
@@ -61,7 +74,7 @@ export default async function BookingFormRoute({params}: {params:{username:strin
             <div className="mt-5 flex flex-col gap-y-3">
               <p className="flex items-center">
                 <CalendarX2 className="size-4 mr-2 text-primary" />
-                <span className="text-sm font-medium text-muted-foreground">23.Sept 2024</span>
+                <span className="text-sm font-medium text-muted-foreground">{formattedDate}</span>
               </p>
               <p className="flex items-center">
                 <Clock className="size-4 mr-2 text-primary" />
@@ -73,7 +86,9 @@ export default async function BookingFormRoute({params}: {params:{username:strin
               </p>
             </div>
           </div>
-          <Separator orientation="vertical" className="h-full"/>
+          <Separator orientation="vertical" className="h-ful w-[1px]"/>
+          <RenderCalendar availability={data.User?.availability as any}/>
+          <Separator orientation="vertical" className="h-full w-[1px]"/>
         </CardContent>
       </Card>
     </div>
